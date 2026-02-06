@@ -134,7 +134,7 @@ Migrate all pages preserving texts, metadata, and structure.
 - [x] **3.7** Services: Wimpernkranz (`/services/permanent-make-up/wimpernkranz`) ✅ 2026-02-06
 - [x] **3.8** Services: Nails (`/services/nails`) ✅ 2026-02-06
 - [x] **3.9** Services: Lashes & Brows (`/services/lashes-und-brows`) ✅ 2026-02-06
-- [ ] **3.10** Preisliste (`/preisliste`) — price list with PriceMenu component
+- [x] **3.10** Preisliste (`/preisliste`) — price list with PriceMenu component ✅ 2026-02-06
 - [x] **3.11** Über uns (`/ueber-uns`) — about page with parallax, galleries, lists ✅ 2026-02-06
 - [x] **3.12** Impressum (`/impressum`) — legal page ✅ 2026-02-06
 - [x] **3.13** Datenschutz (`/datenschutz`) — privacy policy page ✅ 2026-02-06
@@ -152,6 +152,9 @@ Migrate all pages preserving texts, metadata, and structure.
 - **PricePreview:** Server-side data fetching via `servicesService.getServices()`, price/time formatting, top-3 services per category
 - **CSS utilities added:** `.card-service`, `.card-service-overlay`, `.card-service-title`, `.card-service-desc`, `.price-row`, `.price-name`, `.price-value`, `.price-time`, `.btn-outline-white`, `.btn-outline-dark`, `.section-padding`, `.container-narrow`
 - **Impressum & Datenschutz:** Legal pages migrated word-for-word. All German legal text preserved exactly as-is. MUI components replaced with semantic HTML (`h1`-`h4`, `p`, `ul/li`) + Tailwind utility classes (`.legal-heading-2`, `.legal-heading-3`, `.legal-heading-4`, `.legal-body`, `.legal-list`)
+- **Service pages:** All buttons use the 3-part class pattern: `.btn` (base) + `.btn-sm`/`.btn-md` (size) + `.btn-primary`/`.btn-secondary` (variant)
+- **Preisliste:** Server-side data fetching, `PriceMenu` component with category → subcategory → service hierarchy, price range display, duration formatting
+- **ScrollToTop:** Client component in `layout.tsx` — resets scroll to top on every route change, fixing sticky header offset issue
 
 ---
 
@@ -174,7 +177,7 @@ The most complex part — multi-step booking form with state management.
 - [ ] **4.11** `Confirmation` — booking confirmation view
 - [ ] **4.12** `SelectedServicesSummary` — summary of selected services
 - [ ] **4.13** `AppointmentCancellation` — cancellation flow with token
-- [ ] **4.14** `PriceMenu` — expandable price list (Radix Accordion)
+- [x] **4.14** `PriceMenu` — price list component (migrated to Tailwind CSS) ✅ 2026-02-06
 
 ### Notes
 - BookingFormContainer has ~15 state variables and complex step logic
@@ -189,31 +192,34 @@ The most complex part — multi-step booking form with state management.
 
 ### Checklist
 
-- [ ] **5.1** API: `/api/qr-track` — QR scan tracking proxy
-- [ ] **5.2** API: `/api/coupon-qr-track` — coupon QR tracking proxy
-- [ ] **5.3** API: `/api/ga-track` — GA scan tracking proxy
-- [ ] **5.4** API: `/api/ga1-track` — GA1 tracking proxy
-- [ ] **5.5** API: `/api/ga2-track` — GA2 tracking proxy
-- [ ] **5.6** API: `/api/link-track` — link click tracking proxy
-- [ ] **5.7** Route: `/ig` — Instagram bio redirect with tracking
-- [ ] **5.8** Service: `services.service` — fetch public services
+- [x] **5.1** API: `/api/qr-track` — QR scan tracking proxy ✅ 2026-02-06
+- [x] **5.2** API: `/api/coupon-qr-track` — coupon QR tracking proxy ✅ 2026-02-06
+- [x] **5.3** API: `/api/ga-track` — GA scan tracking proxy ✅ 2026-02-06
+- [x] **5.4** API: `/api/ga1-track` — GA1 tracking proxy ✅ 2026-02-06
+- [x] **5.5** API: `/api/ga2-track` — GA2 tracking proxy ✅ 2026-02-06
+- [x] **5.6** API: `/api/link-track` — link click tracking proxy ✅ 2026-02-06
+- [x] **5.7** Route: `/ig` — Instagram bio redirect with tracking ✅ 2026-02-06
+- [x] **5.8** Service: `services.service` — fetch public services ✅ 2026-02-06
 - [ ] **5.9** Service: `calendar.service` — fetch time slots & nearest slots
 - [ ] **5.10** Service: `appointments.service` — create/get/cancel appointments
 - [ ] **5.11** Lib: `ga.js` — Google Analytics 4 event tracking (full booking funnel)
-- [ ] **5.12** Lib: `gtm.js` — Google Ads conversion tracking
-- [ ] **5.13** Component: `AnalyticsScripts` — GA/GTM script injection
-- [ ] **5.14** Component: `PhoneTrackingHandler` — phone click tracking
-- [ ] **5.15** Component: `LocalBusinessSchema` — JSON-LD structured data
+- [x] **5.12** Lib: `gtm.js` — Google Ads conversion tracking ✅ 2026-02-06
+- [x] **5.13** Component: `AnalyticsScripts` — GA/GTM script injection ✅ 2026-02-06
+- [x] **5.14** Component: `PhoneTrackingHandler` — phone click tracking ✅ 2026-02-06
+- [x] **5.15** Component: `LocalBusinessSchema` — JSON-LD structured data ✅ 2026-02-06
 - [ ] **5.16** Component: `PerformanceMonitor` — web vitals monitoring
-- [ ] **5.17** `robots.ts` — robots.txt generation
-- [ ] **5.18** `sitemap.ts` — sitemap.xml generation
-- [ ] **5.19** `middleware.ts` — empty middleware (manifest fix)
-- [ ] **5.20** Utils: `formatters` — time, price, date formatters
+- [x] **5.17** `robots.ts` — robots.txt generation ✅ 2026-02-06
+- [x] **5.18** `sitemap.ts` — sitemap.xml generation ✅ 2026-02-06
+- [x] **5.19** `middleware.ts` — empty middleware (manifest fix) ✅ 2026-02-06
+- [x] **5.20** Utils: `formatters` — time, price, date formatters ✅ 2026-02-06
 - [ ] **5.21** Utils: `slugify` — URL slug generation
 - [ ] **5.22** Utils: `performance` — performance measurement
 - [ ] **5.23** Constants: `enums` — booking enums
 - [ ] **5.24** Constants: `errors` — error codes
-- [ ] **5.25** Constants: `staticData` — categories and services static data
+- [x] **5.25** Constants: `staticData` — categories and services static data ✅ 2026-02-06
+- [x] **5.26** Component: `ScrollToTop` — scroll-to-top on route change ✅ 2026-02-06
+- [x] **5.27** Component: `CategoryInfo` — service category info block ✅ 2026-02-06
+- [x] **5.28** Component: `SubCategoryCardInfo` — sub-category service cards ✅ 2026-02-06
 
 ### Notes
 - All API routes proxy to `http://127.0.0.1:3500/` (local backend)
@@ -257,6 +263,11 @@ The most complex part — multi-step booking form with state management.
 | 2026-02-06 | Mobile-first approach for all pages | User requirement — build mobile layout first, then scale up with responsive breakpoints |
 | 2026-02-06 | `PricePreview` as server component | Data fetched server-side via `servicesService.getServices()`, no client-side fetching needed |
 | 2026-02-06 | CSS utility classes instead of inline Tailwind for repeated patterns | `.card-service`, `.price-row`, etc. — keeps JSX clean, easier to maintain consistent styling |
+| 2026-02-06 | `ScrollToTop` component for route changes | Next.js App Router + sticky header causes 70px scroll offset on navigation — `usePathname` + `scrollTo(0,0)` fixes it |
+| 2026-02-06 | `CategoryCardInfo` inlined in services page | Old project had a separate component, new project uses direct JSX in `services/page.tsx` — simpler, less abstraction |
+| 2026-02-06 | `AboutSection` inlined in über-uns page | Old project had a separate component, new project uses direct JSX — same pattern as CategoryCardInfo |
+| 2026-02-06 | Base `btn` class required on all buttons | Custom button system uses `.btn` + size (`.btn-sm`/`.btn-md`/`.btn-lg`) + variant (`.btn-primary`/`.btn-secondary`) — all three required |
+| 2026-02-06 | API routes proxy to local backend | All tracking routes proxy to `http://127.0.0.1:3500/` with header forwarding (x-forwarded-for, user-agent, etc.) |
 
 ---
 
@@ -268,17 +279,17 @@ The most complex part — multi-step booking form with state management.
 | `src/app/layout.js` | `src/app/layout.tsx` | ✅ Done |
 | `src/app/page.js` | `src/app/page.tsx` | ✅ Done |
 | `src/app/booking/page.js` | `src/app/booking/page.tsx` | ⬜ Pending |
-| `src/app/services/page.js` | `src/app/services/page.tsx` | ⬜ Pending |
-| `src/app/services/*/page.js` | `src/app/services/*/page.tsx` | ⬜ Pending |
-| `src/app/preisliste/page.js` | `src/app/preisliste/page.tsx` | ⬜ Pending |
+| `src/app/services/page.js` | `src/app/services/page.tsx` | ✅ Done |
+| `src/app/services/*/page.js` | `src/app/services/*/page.tsx` | ✅ Done |
+| `src/app/preisliste/page.js` | `src/app/preisliste/page.tsx` | ✅ Done |
 | `src/app/ueber-uns/page.js` | `src/app/ueber-uns/page.tsx` | ✅ Done |
 | `src/app/impressum/page.js` | `src/app/impressum/page.tsx` | ✅ Done |
 | `src/app/datenschutz/page.js` | `src/app/datenschutz/page.tsx` | ✅ Done |
 | `src/app/termin-stornieren/[token]/page.js` | `src/app/termin-stornieren/[token]/page.tsx` | ⬜ Pending |
-| `src/app/ig/route.js` | `src/app/ig/route.ts` | ⬜ Pending |
-| `src/app/api/*/route.js` | `src/app/api/*/route.ts` | ⬜ Pending |
-| `src/app/robots.js` | `src/app/robots.ts` | ⬜ Pending |
-| `src/app/sitemap.js` | `src/app/sitemap.ts` | ⬜ Pending |
+| `src/app/ig/route.js` | `src/app/ig/route.ts` | ✅ Done |
+| `src/app/api/*/route.js` | `src/app/api/*/route.ts` | ✅ Done |
+| `src/app/robots.js` | `src/app/robots.ts` | ✅ Done |
+| `src/app/sitemap.js` | `src/app/sitemap.ts` | ✅ Done |
 | `src/components/Header/Header.js` | `src/components/Header/Header.tsx` | ✅ Done |
 | `src/components/Menu/Menu.js` | `src/components/Menu/Menu.tsx` | ✅ Done |
 | `src/components/Logo/Logo.js` | `src/components/Logo/Logo.tsx` | ✅ Done |
@@ -293,17 +304,17 @@ The most complex part — multi-step booking form with state management.
 | `src/components/HomeServices/HomeServices.js` | `src/components/HomeServices/HomeServices.tsx` | ✅ Done |
 | `src/components/UberMoodSection/UberMoodSection.js` | `src/components/UberMoodSection/UberMoodSection.tsx` | ✅ Done |
 | `src/components/PricePreview/PricePreview.js` | `src/components/PricePreview/PricePreview.tsx` | ✅ Done |
-| `src/components/PriceMenu/PriceMenu.js` | `src/components/PriceMenu/PriceMenu.tsx` | ⬜ Pending |
+| `src/components/PriceMenu/PriceMenu.js` | `src/components/PriceMenu/PriceMenu.tsx` | ✅ Done |
 | `src/components/BookingForm/*.js` | `src/components/BookingForm/*.tsx` | ⬜ Pending |
 | `src/components/AppointmentCancellation/AppointmentCancellation.js` | `src/components/AppointmentCancellation/AppointmentCancellation.tsx` | ⬜ Pending |
 | `src/components/Analytics/AnalyticsScripts.js` | `src/components/Analytics/AnalyticsScripts.tsx` | ✅ Done |
 | `src/components/PhoneTrackingHandler/PhoneTrackingHandler.js` | `src/components/PhoneTrackingHandler/PhoneTrackingHandler.tsx` | ✅ Done |
 | `src/components/StructuredData/LocalBusinessSchema.js` | `src/components/StructuredData/LocalBusinessSchema.tsx` | ✅ Done |
 | `src/components/PerformanceMonitor/PerformanceMonitor.js` | `src/components/PerformanceMonitor/PerformanceMonitor.tsx` | ⬜ Pending |
-| `src/components/CategoryCardInfo/CategoryCardInfo.js` | `src/components/CategoryCardInfo/CategoryCardInfo.tsx` | ⬜ Pending |
-| `src/components/CategoryInfo/CategoryInfo.js` | `src/components/CategoryInfo/CategoryInfo.tsx` | ⬜ Pending |
-| `src/components/SubCategoryCardInfo/SubCategoryCardInfo.js` | `src/components/SubCategoryCardInfo/SubCategoryCardInfo.tsx` | ⬜ Pending |
-| `src/components/AboutSection/AboutSection.js` | `src/components/AboutSection/AboutSection.tsx` | ⬜ Pending |
+| `src/components/CategoryCardInfo/CategoryCardInfo.js` | _(inlined in services/page.tsx)_ | ✅ Done (inlined) |
+| `src/components/CategoryInfo/CategoryInfo.js` | `src/components/CategoryInfo/CategoryInfo.tsx` | ✅ Done |
+| `src/components/SubCategoryCardInfo/SubCategoryCardInfo.js` | `src/components/SubCategoryCardInfo/SubCategoryCardInfo.tsx` | ✅ Done |
+| `src/components/AboutSection/AboutSection.js` | _(inlined in ueber-uns/page.tsx)_ | ✅ Done (inlined) |
 | `src/components/MosaicGallery/MosaicGallery.js` | `src/components/MosaicGallery/MosaicGallery.tsx` | ✅ Done |
 | `src/services/services.service.js` | `src/services/services.service.ts` | ✅ Done |
 | `src/services/calendar.service.js` | `src/services/calendar.service.ts` | ⬜ Pending |
@@ -316,7 +327,8 @@ The most complex part — multi-step booking form with state management.
 | `src/utils/formatters.js` | `src/utils/formatters.ts` | ✅ Done |
 | `src/utils/slugify.js` | `src/utils/slugify.ts` | ⬜ Pending |
 | `src/utils/performance.js` | `src/utils/performance.ts` | ⬜ Pending |
-| `src/middleware.js` | `src/middleware.ts` | ⬜ Pending |
+| `src/middleware.js` | `src/middleware.ts` | ✅ Done |
+| _(new)_ | `src/components/ScrollToTop/ScrollToTop.tsx` | ✅ Done |
 
 ---
 
@@ -396,4 +408,34 @@ The most complex part — multi-step booking form with state management.
   - Added CSS classes: `.ueber-uns-page`, `.full-bleed`, `.about-card`, `.warum-mood-section`, `.about-bullet-list`
   - MUI `FiberManualRecordIcon` → CSS `::before` pseudo-element (7px black circle)
   - Build passes successfully ✅
-- 🚧 Next: Phase 3.2+ — remaining pages (Services, Preisliste, etc.)
+- ✅ **Phase 3.2–3.9 ALL SERVICE PAGES VERIFIED:**
+  - All service pages were already migrated to Tailwind CSS with correct metadata
+  - Services index (`/services`), Permanent Make-up, Powder Brows, Hairstroke, Velvet Lips, Wimpernkranz, Nails, Lashes & Brows — all present and building
+  - Fixed button styling: added base `btn` class + size classes (`btn-sm`, `btn-md`) to all service page buttons, `SubCategoryCardInfo`, `CategoryInfo`, and `lashes-und-brows` page
+  - Build passes successfully ✅
+- ✅ **SCROLL-TO-TOP FIX:**
+  - Created `ScrollToTop` client component (`src/components/ScrollToTop/ScrollToTop.tsx`)
+  - Uses `usePathname` + `window.scrollTo(0, 0)` to reset scroll on every route change
+  - Integrated into `layout.tsx` — fixes sticky header causing 70px scroll offset on navigation
+  - Build passes successfully ✅
+- ✅ **HEADER STYLING FIX:**
+  - Fixed header height: 86px → 70px (matching old project)
+  - Added `border-bottom: 1px solid rgba(0, 0, 0, 0.06)` (except on `/booking`)
+  - Added `background-color: rgba(255, 255, 255, 0.65)` with `backdrop-filter: blur(8px)` (except on `/booking`)
+- ✅ **Phase 3.10 PREISLISTE COMPLETE:**
+  - Created `src/app/preisliste/page.tsx` — price list page with `PriceMenu` component
+  - Created `src/components/PriceMenu/PriceMenu.tsx` — full price menu with categories, subcategories, services, price display, duration formatting
+  - MUI `Box/Typography/Button` → Tailwind CSS utility classes
+  - All metadata preserved: title, description, keywords
+  - Fixed TypeScript error: `subCategoryName` type inference with explicit `SubCategory` typing
+  - Build passes successfully ✅
+- ✅ **Phase 5.1–5.7, 5.17–5.19 API ROUTES & INFRA COMPLETE:**
+  - Migrated all 6 API tracking routes to TypeScript: `qr-track`, `coupon-qr-track`, `ga-track`, `ga1-track`, `ga2-track`, `link-track`
+  - Migrated `/ig` Instagram redirect route to TypeScript
+  - Migrated `robots.ts` — robots.txt generation (same rules as old project)
+  - Migrated `sitemap.ts` — sitemap.xml with all 14 static pages
+  - Migrated `middleware.ts` — empty no-op middleware (manifest fix)
+  - All routes proxy to `http://127.0.0.1:3500/` local backend with header forwarding
+  - Build passes successfully ✅
+- ✅ Updated `MIGRATION.md` with all progress
+- 🚧 Next: Phase 3.14 (Booking page UI), Phase 3.15 (Termin stornieren), Phase 4 (Booking logic)
