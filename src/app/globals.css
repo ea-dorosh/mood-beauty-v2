@@ -1,26 +1,587 @@
 @import "tailwindcss";
 
+/* ============================================
+   MOOD BEAUTY V2 — Design Tokens & Global Styles
+   Migrated from MUI theme.js
+   ============================================ */
+
+/* --- Color Palette --- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-charcoal: #1a1a1a;
+  --color-light-gray: #f2f0f7;
+  --color-gold: #D4AF37;
+  --color-crimson: #DC143C;
+  --color-green: #18b518;
+
+  /* Semantic tokens */
+  --color-background: var(--color-white);
+  --color-background-alt: var(--color-light-gray);
+  --color-foreground: var(--color-black);
+  --color-primary: var(--color-black);
+  --color-primary-contrast: var(--color-white);
+  --color-secondary: var(--color-white);
+  --color-secondary-contrast: var(--color-black);
+  --color-info: var(--color-charcoal);
+  --color-error: var(--color-crimson);
+  --color-success: var(--color-green);
+
+  /* Border radius */
+  --radius-default: 12px;
+  --radius-full: 9999px;
+
+  /* Header height */
+  --header-height: 72px;
+
+  /* Font aliases — resolve next/font CSS variables for use in plain CSS */
+  --font-heading: var(--font-cormorant-garamond);
+  --font-body: var(--font-montserrat);
 }
 
+/* --- Tailwind CSS 4 Theme Extension --- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Colors */
+  --color-background: var(--color-background);
+  --color-background-alt: var(--color-background-alt);
+  --color-foreground: var(--color-foreground);
+  --color-primary: var(--color-primary);
+  --color-primary-contrast: var(--color-primary-contrast);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-contrast: var(--color-secondary-contrast);
+  --color-info: var(--color-info);
+  --color-error: var(--color-error);
+  --color-success: var(--color-success);
+  --color-charcoal: var(--color-charcoal);
+  --color-light-gray: var(--color-light-gray);
+  --color-gold: var(--color-gold);
+
+  /* Fonts — reference :root vars so Tailwind utilities (font-heading, font-body) also work */
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+
+  /* Breakpoints (matching old MUI breakpoints) */
+  --breakpoint-xs: 0px;
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 900px;
+  --breakpoint-lg: 1200px;
+  --breakpoint-xl: 1536px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* --- Base Styles --- */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body), sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Default heading fonts — Cormorant Garamond */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), serif;
+}
+
+/* Default body fonts — Montserrat */
+p, span, a, li, label, input, textarea, select, button {
+  font-family: var(--font-body), sans-serif;
+}
+
+/* --- Typography Utility Classes --- */
+
+/* Headings — Cormorant Garamond */
+.heading-1 {
+  font-family: var(--font-heading), serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+}
+@media (min-width: 900px) {
+  .heading-1 { font-size: 3rem; }
+}
+@media (min-width: 1200px) {
+  .heading-1 { font-size: 3.5rem; }
+}
+
+.heading-2 {
+  font-family: var(--font-heading), serif;
+  font-size: 2.2rem;
+}
+@media (min-width: 900px) {
+  .heading-2 { font-size: 2.8rem; }
+}
+@media (min-width: 1200px) {
+  .heading-2 { font-size: 3.2rem; }
+}
+
+.heading-3 {
+  font-family: var(--font-heading), serif;
+  font-weight: 600;
+  font-size: 20px;
+}
+@media (min-width: 900px) {
+  .heading-3 { font-size: 24px; }
+}
+@media (min-width: 1200px) {
+  .heading-3 { font-size: 28px; }
+}
+
+.heading-4 {
+  font-family: var(--font-heading), serif;
+  font-size: 1.4rem;
+}
+@media (min-width: 900px) {
+  .heading-4 { font-size: 1.6rem; }
+}
+@media (min-width: 1200px) {
+  .heading-4 { font-size: 1.8rem; }
+}
+
+/* Body text — Montserrat */
+.body-text {
+  font-family: var(--font-body), sans-serif;
+  font-size: 1rem;
+}
+@media (min-width: 900px) {
+  .body-text { font-size: 1.1rem; }
+}
+@media (min-width: 1200px) {
+  .body-text { font-size: 1.2rem; }
+}
+
+/* Caption — Cormorant Garamond */
+.caption-text {
+  font-family: var(--font-heading), serif;
+  font-size: 1.2rem;
+  letter-spacing: 3px;
+}
+
+/* Subtitle */
+.subtitle-1 {
+  font-family: var(--font-body), sans-serif;
+  font-size: 1rem;
+  font-weight: 200;
+}
+
+.subtitle-2 {
+  font-family: var(--font-body), sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+/* Form typography */
+.form-overview {
+  font-size: 1.1rem;
+}
+
+.form-subtitle {
+  font-size: 0.9rem;
+  color: color-mix(in srgb, var(--color-black) 50%, transparent);
+}
+
+.form-label {
+  font-size: 0.875rem;
+  color: color-mix(in srgb, var(--color-black) 70%, transparent);
+  font-family: var(--font-body), sans-serif;
+  margin-bottom: 4px;
+}
+
+/* --- Button Base Styles --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body), sans-serif;
+  font-weight: 500;
+  text-transform: none;
+  box-shadow: none;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.btn:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+.btn:disabled {
+  box-shadow: none;
+  transform: none;
+  opacity: 1;
+  cursor: default;
+}
+
+/* Button sizes */
+.btn-sm {
+  font-size: 0.95rem;
+  padding: 6px 18px;
+  min-width: 80px;
+  height: 36px;
+}
+
+.btn-md {
+  font-size: 1.1rem;
+  padding: 6px 20px;
+  min-width: 120px;
+  height: 44px;
+}
+
+.btn-lg {
+  font-size: 1.3rem;
+  padding: 10px 28px;
+  min-width: 150px;
+  height: 52px;
+}
+
+/* Button variants */
+.btn-primary {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-black);
+}
+
+.btn-primary:disabled {
+  background-color: color-mix(in srgb, var(--color-black) 18%, transparent);
+  color: color-mix(in srgb, var(--color-white) 70%, transparent);
+  border-color: transparent;
+}
+
+.btn-secondary {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border-color: var(--color-black);
+}
+
+.btn-secondary:hover {
+  background-color: inherit;
+}
+
+.btn-secondary:disabled {
+  background-color: color-mix(in srgb, var(--color-black) 6%, transparent);
+  color: color-mix(in srgb, var(--color-black) 40%, transparent);
+  border-color: color-mix(in srgb, var(--color-black) 20%, transparent);
+}
+
+.btn-error {
+  background-color: var(--color-crimson);
+  color: var(--color-white);
+}
+
+.btn-error:hover {
+  background-color: var(--color-crimson);
+}
+
+.btn-error:disabled {
+  background-color: color-mix(in srgb, var(--color-crimson) 18%, transparent);
+  color: color-mix(in srgb, var(--color-white) 70%, transparent);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-black);
+  border-color: var(--color-black);
+}
+
+.btn-outline:hover {
+  background-color: inherit;
+}
+
+.btn-outline:disabled {
+  color: color-mix(in srgb, var(--color-black) 40%, transparent);
+  border-color: color-mix(in srgb, var(--color-black) 20%, transparent);
+}
+
+.btn-outline-white {
+  background-color: transparent;
+  color: var(--color-white);
+  border-color: var(--color-white);
+}
+
+.btn-outline-white:hover {
+  background-color: inherit;
+}
+
+.btn-outline-white:disabled {
+  color: color-mix(in srgb, var(--color-white) 60%, transparent);
+  border-color: color-mix(in srgb, var(--color-white) 30%, transparent);
+}
+
+.btn-text {
+  background-color: transparent;
+  color: var(--color-black);
+  border: none;
+  padding: 0;
+  min-width: unset;
+}
+
+.btn-text:disabled {
+  color: color-mix(in srgb, var(--color-black) 40%, transparent);
+}
+
+.btn-plain {
+  color: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  background-color: transparent;
+  padding: 0;
+  min-width: unset;
+  border-radius: 0;
+  font-family: var(--font-heading), serif;
+  text-transform: lowercase;
+  border: none;
+}
+
+.btn-plain:hover {
+  background-color: transparent;
+  transform: none;
+}
+
+.btn-plain:disabled {
+  color: color-mix(in srgb, var(--color-black) 40%, transparent);
+}
+
+/* --- Form Input Styles --- */
+.input {
+  background-color: var(--color-light-gray);
+  border-radius: var(--radius-default);
+  font-size: 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-black) 20%, transparent);
+  padding: 10px 14px;
+  font-family: var(--font-body), sans-serif;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+
+.input:hover {
+  border-color: color-mix(in srgb, var(--color-black) 40%, transparent);
+}
+
+.input:focus {
+  border-color: var(--color-black);
+}
+
+/* --- Select Styles --- */
+.select-trigger {
+  background-color: var(--color-light-gray);
+  border-radius: var(--radius-default);
+  font-size: 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-black) 20%, transparent);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  min-height: 20px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.select-trigger:hover {
+  border-color: color-mix(in srgb, var(--color-black) 40%, transparent);
+}
+
+.select-trigger[data-state="open"] {
+  border-color: var(--color-black);
+}
+
+/* --- Accordion Styles --- */
+.accordion-item {
+  box-shadow: none;
+  border-radius: 0;
+  background-color: var(--color-light-gray);
+}
+
+.accordion-item:not(:last-child) .accordion-trigger {
+  border-bottom: 1px solid color-mix(in srgb, var(--color-black) 10%, transparent);
+}
+
+.accordion-trigger {
+  min-height: 0;
+  padding: 6px 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.accordion-content {
+  overflow: hidden;
+}
+
+.accordion-content[data-state="open"] {
+  animation: accordion-down 200ms ease-out;
+}
+
+.accordion-content[data-state="closed"] {
+  animation: accordion-up 200ms ease-out;
+}
+
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+
+/* --- Menu/Dropdown Styles --- */
+.dropdown-content {
+  border-radius: var(--radius-default);
+  margin-top: 4px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-white);
+}
+
+.dropdown-item {
+  padding: 4px 16px;
+  font-size: 0.95rem;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: color-mix(in srgb, var(--color-black) 4%, transparent);
+}
+
+.dropdown-item[data-highlighted] {
+  background-color: var(--color-light-gray);
+}
+
+/* --- Chip/Badge Styles --- */
+.chip {
+  padding: 0 4px;
+  font-family: var(--font-body), sans-serif;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+}
+
+.chip-label {
+  padding: 0 10px;
+}
+
+/* --- Utility Classes --- */
+.container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 100%;
+}
+
+/* Remove default link styles */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Remove default list styles */
+ul, ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Focus visible for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-black);
+  outline-offset: 2px;
+}
+
+/* --- Service Card Styles --- */
+.service-card {
+  background-color: var(--color-white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+@media (min-width: 900px) {
+  .service-card {
+    border-radius: 24px;
+  }
+}
+
+.service-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Über MOOD Section --- */
+.uber-mood-section {
+  margin-left: calc(50% - 50vw);
+  width: 100vw;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  background: linear-gradient(
+    180deg,
+    rgba(250, 248, 252, 1) 0%,
+    rgba(200, 180, 200, 0.1) 50%,
+    rgba(250, 248, 252, 1) 100%
+  );
+}
+
+@media (min-width: 900px) {
+  .uber-mood-section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+/* --- Price Preview Section --- */
+.price-preview-section {
+  margin-left: calc(50% - 50vw);
+  width: 100vw;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  background-color: var(--color-white);
+}
+
+@media (min-width: 900px) {
+  .price-preview-section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+/* --- List with disc inside UberMood --- */
+.uber-mood-section ul.list-disc {
+  list-style: disc;
+}
+
+/* --- Dialog/Menu Animations --- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
 }
