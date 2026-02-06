@@ -17,7 +17,7 @@ export default async function HomePage() {
         alt="Eine Frau mit gepflegten Augenbrauen und Make-up"
         height="80vh"
       >
-        <div className="h-full flex items-end md:items-center justify-end md:justify-center flex-col gap-4 py-8 md:py-16 pb-14 md:pb-16 max-w-full px-4">
+        <div className="h-full flex items-center justify-end md:justify-center flex-col gap-4 py-8 md:py-16 pb-14 md:pb-16 max-w-full px-4">
           <h1 className="heading-1 text-primary-contrast text-center leading-none tracking-[.06em]">
             MOOD
             <span className="block text-secondary font-normal tracking-[.02em] mt-2 text-[1.4rem] md:text-[1.8rem] lg:text-[2.2rem]">

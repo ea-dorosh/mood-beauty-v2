@@ -90,7 +90,7 @@ export default function ParallaxHero({
 
       {/* Dark overlay */}
       <div
-        className="absolute inset-0 z-[1]"
+        className="absolute inset-0"
         style={{
           background: `linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.35) 100%)`,
         }}
@@ -99,7 +99,7 @@ export default function ParallaxHero({
       {/* Content layer */}
       <div
         ref={contentLayerRef}
-        className="relative z-[2] h-full"
+        className="relative z-[1] h-full"
       >
         {children ? (
           children
