@@ -135,7 +135,7 @@ Migrate all pages preserving texts, metadata, and structure.
 - [ ] **3.8** Services: Nails (`/services/nails`)
 - [ ] **3.9** Services: Lashes & Brows (`/services/lashes-und-brows`)
 - [ ] **3.10** Preisliste (`/preisliste`) — price list with PriceMenu component
-- [ ] **3.11** Über uns (`/ueber-uns`) — about page with parallax, galleries, lists
+- [x] **3.11** Über uns (`/ueber-uns`) — about page with parallax, galleries, lists ✅ 2026-02-06
 - [x] **3.12** Impressum (`/impressum`) — legal page ✅ 2026-02-06
 - [x] **3.13** Datenschutz (`/datenschutz`) — privacy policy page ✅ 2026-02-06
 - [ ] **3.14** Booking (`/booking`) — booking form page (UI only, logic in Phase 4)
@@ -271,7 +271,7 @@ The most complex part — multi-step booking form with state management.
 | `src/app/services/page.js` | `src/app/services/page.tsx` | ⬜ Pending |
 | `src/app/services/*/page.js` | `src/app/services/*/page.tsx` | ⬜ Pending |
 | `src/app/preisliste/page.js` | `src/app/preisliste/page.tsx` | ⬜ Pending |
-| `src/app/ueber-uns/page.js` | `src/app/ueber-uns/page.tsx` | ⬜ Pending |
+| `src/app/ueber-uns/page.js` | `src/app/ueber-uns/page.tsx` | ✅ Done |
 | `src/app/impressum/page.js` | `src/app/impressum/page.tsx` | ✅ Done |
 | `src/app/datenschutz/page.js` | `src/app/datenschutz/page.tsx` | ✅ Done |
 | `src/app/termin-stornieren/[token]/page.js` | `src/app/termin-stornieren/[token]/page.tsx` | ⬜ Pending |
@@ -388,4 +388,12 @@ The most complex part — multi-step booking form with state management.
   - Added CSS utility classes: `.legal-heading-2`, `.legal-heading-3`, `.legal-heading-4`, `.legal-body`, `.legal-list`
   - Build passes successfully ✅
 - ✅ Fixed `next/image` quality warnings — added `qualities: [75, 90]` to `next.config.ts` `images` config. Components use `quality={90}` (ParallaxHero, HomeServices, ScrollGallery, RevealSection) and default `quality={75}` (OptimizedImage). Next.js 16 requires all used quality values to be explicitly listed.
-- 🚧 Next: Phase 3.2+ — remaining pages (Services, Preisliste, Über uns, etc.)
+- ✅ **Phase 3.11 ÜBER UNS COMPLETE:**
+  - Created `src/app/ueber-uns/page.tsx` — full about page migrated from old project
+  - MUI `Box/Container/Typography/Divider/List/ListItem/ListItemIcon/ListItemText` → semantic HTML + Tailwind CSS + custom CSS classes
+  - All metadata preserved: title, description, keywords, authors, creator, publisher, robots, canonical
+  - Sections: ParallaxHero → Intro Card → RevealSection (PMU) → RevealSection (Maniküre) → Warum MOOD (full-bleed gradient + bullet list) → ScrollGallery → Unsere Schwerpunkte → Weitere Leistungen → Closing quote
+  - Added CSS classes: `.ueber-uns-page`, `.full-bleed`, `.about-card`, `.warum-mood-section`, `.about-bullet-list`
+  - MUI `FiberManualRecordIcon` → CSS `::before` pseudo-element (7px black circle)
+  - Build passes successfully ✅
+- 🚧 Next: Phase 3.2+ — remaining pages (Services, Preisliste, etc.)
