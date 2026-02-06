@@ -575,6 +575,50 @@ ul, ol {
   list-style: disc;
 }
 
+/* --- Legal Pages (Impressum, Datenschutz) --- */
+.legal-heading-2 {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: var(--font-body), sans-serif;
+}
+
+.legal-heading-3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.25rem;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: var(--font-body), sans-serif;
+}
+
+.legal-heading-4 {
+  margin-top: 1rem;
+  margin-bottom: 0.25rem;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font-body), sans-serif;
+}
+
+.legal-body {
+  margin-bottom: 0.5rem;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.legal-list {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.legal-list li {
+  padding-left: 0.5rem;
+  margin-bottom: 0.25rem;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
 /* --- Dialog/Menu Animations --- */
 @keyframes fadeIn {
   from { opacity: 0; }

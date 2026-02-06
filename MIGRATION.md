@@ -136,8 +136,8 @@ Migrate all pages preserving texts, metadata, and structure.
 - [ ] **3.9** Services: Lashes & Brows (`/services/lashes-und-brows`)
 - [ ] **3.10** Preisliste (`/preisliste`) — price list with PriceMenu component
 - [ ] **3.11** Über uns (`/ueber-uns`) — about page with parallax, galleries, lists
-- [ ] **3.12** Impressum (`/impressum`) — legal page
-- [ ] **3.13** Datenschutz (`/datenschutz`) — privacy policy page
+- [x] **3.12** Impressum (`/impressum`) — legal page ✅ 2026-02-06
+- [x] **3.13** Datenschutz (`/datenschutz`) — privacy policy page ✅ 2026-02-06
 - [ ] **3.14** Booking (`/booking`) — booking form page (UI only, logic in Phase 4)
 - [ ] **3.15** Termin stornieren (`/termin-stornieren/[token]`) — appointment cancellation
 
@@ -151,6 +151,7 @@ Migrate all pages preserving texts, metadata, and structure.
 - **UberMoodSection:** Text block + `ScrollGallery` with 3 studio images, "Mehr über uns" link
 - **PricePreview:** Server-side data fetching via `servicesService.getServices()`, price/time formatting, top-3 services per category
 - **CSS utilities added:** `.card-service`, `.card-service-overlay`, `.card-service-title`, `.card-service-desc`, `.price-row`, `.price-name`, `.price-value`, `.price-time`, `.btn-outline-white`, `.btn-outline-dark`, `.section-padding`, `.container-narrow`
+- **Impressum & Datenschutz:** Legal pages migrated word-for-word. All German legal text preserved exactly as-is. MUI components replaced with semantic HTML (`h1`-`h4`, `p`, `ul/li`) + Tailwind utility classes (`.legal-heading-2`, `.legal-heading-3`, `.legal-heading-4`, `.legal-body`, `.legal-list`)
 
 ---
 
@@ -271,8 +272,8 @@ The most complex part — multi-step booking form with state management.
 | `src/app/services/*/page.js` | `src/app/services/*/page.tsx` | ⬜ Pending |
 | `src/app/preisliste/page.js` | `src/app/preisliste/page.tsx` | ⬜ Pending |
 | `src/app/ueber-uns/page.js` | `src/app/ueber-uns/page.tsx` | ⬜ Pending |
-| `src/app/impressum/page.js` | `src/app/impressum/page.tsx` | ⬜ Pending |
-| `src/app/datenschutz/page.js` | `src/app/datenschutz/page.tsx` | ⬜ Pending |
+| `src/app/impressum/page.js` | `src/app/impressum/page.tsx` | ✅ Done |
+| `src/app/datenschutz/page.js` | `src/app/datenschutz/page.tsx` | ✅ Done |
 | `src/app/termin-stornieren/[token]/page.js` | `src/app/termin-stornieren/[token]/page.tsx` | ⬜ Pending |
 | `src/app/ig/route.js` | `src/app/ig/route.ts` | ⬜ Pending |
 | `src/app/api/*/route.js` | `src/app/api/*/route.ts` | ⬜ Pending |
@@ -373,4 +374,18 @@ The most complex part — multi-step booking form with state management.
   - Added CSS utility classes: `.card-service`, `.price-row`, `.btn-outline-white`, `.btn-outline-dark`, `.section-padding`, `.container-narrow`
   - Mobile-first approach throughout
   - Build passes successfully ✅
+- ✅ **Phase 3.12 IMPRESSUM COMPLETE:**
+  - Created `src/app/impressum/page.tsx` — all legal text migrated word-for-word from old project
+  - MUI `Container/Typography/Box` → Tailwind CSS utility classes
+  - Metadata preserved: title, description
+  - Sections: Angaben gemäß § 5 TMG, Kontakt, Inhaltlich Verantwortlicher, USt-IdNr, Berufsbezeichnung, EU-Streitschlichtung, Verbraucherstreitbeilegung
+  - Build passes successfully ✅
+- ✅ **Phase 3.13 DATENSCHUTZ COMPLETE:**
+  - Created `src/app/datenschutz/page.tsx` — all privacy policy text migrated word-for-word from old project
+  - MUI `Container/Typography/Box/List/ListItem` → Tailwind CSS utility classes
+  - Metadata preserved: title, description
+  - All 7 sections preserved: Verantwortlicher, Hosting & Auftragsverarbeitung, CRM-System, Datenerfassung, Cookies, Ihre Rechte, Aktualisierung
+  - Added CSS utility classes: `.legal-heading-2`, `.legal-heading-3`, `.legal-heading-4`, `.legal-body`, `.legal-list`
+  - Build passes successfully ✅
+- ✅ Fixed `next/image` quality warnings — added `qualities: [75, 90]` to `next.config.ts` `images` config. Components use `quality={90}` (ParallaxHero, HomeServices, ScrollGallery, RevealSection) and default `quality={75}` (OptimizedImage). Next.js 16 requires all used quality values to be explicitly listed.
 - 🚧 Next: Phase 3.2+ — remaining pages (Services, Preisliste, Über uns, etc.)
