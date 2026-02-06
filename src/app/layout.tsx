@@ -5,6 +5,7 @@ import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import CookieBanner from "@/components/CookieBanner/CookieBanner";
 import Header from "@/components/Header/Header";
 import PhoneTrackingHandler from "@/components/PhoneTrackingHandler/PhoneTrackingHandler";
+import ScrollToTop from "@/components/ScrollToTop/ScrollToTop";
 import LocalBusinessSchema from "@/components/StructuredData/LocalBusinessSchema";
 import "./globals.css";
 
@@ -127,6 +128,7 @@ export default function RootLayout({
 
         <CookieBanner />
         <PhoneTrackingHandler />
+        <ScrollToTop />
       </body>
     </html>
   );

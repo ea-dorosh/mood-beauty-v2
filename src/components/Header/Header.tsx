@@ -43,11 +43,15 @@ export default function Header() {
 
   return (
     <header
-      className={`${isBooking ? "" : "sticky top-0"} z-[1100] bg-transparent`}
-      style={{ backdropFilter: isBooking ? undefined : `blur(8px)` }}
+      className={`${isBooking ? "" : "sticky top-0"} z-[1100]`}
+      style={{
+        backgroundColor: isBooking ? `transparent` : `rgba(255, 255, 255, 0.65)`,
+        backdropFilter: isBooking ? undefined : `blur(8px)`,
+        borderBottom: isBooking ? `none` : `1px solid rgba(0, 0, 0, 0.06)`,
+      }}
     >
-      <div className="px-4 py-2">
-        <div className="container flex items-center">
+      <div className="px-4 h-[70px]">
+        <div className="container flex items-center h-full">
           <LogoLink />
           <div className="ml-auto">
             <Menu links={LINKS} />

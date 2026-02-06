@@ -126,14 +126,14 @@ Migrate all pages preserving texts, metadata, and structure.
 ### Checklist
 
 - [x] **3.1** Home page (`/`) — ParallaxHero, HomeServices, UberMoodSection, PricePreview, ContactSection ✅ 2026-02-06
-- [ ] **3.2** Services index (`/services`) — category grid with images
-- [ ] **3.3** Services: Permanent Make-up (`/services/permanent-make-up`) — category info page
-- [ ] **3.4** Services: Powder Brows (`/services/permanent-make-up/powder-brows`)
-- [ ] **3.5** Services: Hairstroke (`/services/permanent-make-up/hairstroke`)
-- [ ] **3.6** Services: Velvet Lips (`/services/permanent-make-up/velvet-lips`)
-- [ ] **3.7** Services: Wimpernkranz (`/services/permanent-make-up/wimpernkranz`)
-- [ ] **3.8** Services: Nails (`/services/nails`)
-- [ ] **3.9** Services: Lashes & Brows (`/services/lashes-und-brows`)
+- [x] **3.2** Services index (`/services`) — category grid with images ✅ 2026-02-06
+- [x] **3.3** Services: Permanent Make-up (`/services/permanent-make-up`) — category info page ✅ 2026-02-06
+- [x] **3.4** Services: Powder Brows (`/services/permanent-make-up/powder-brows`) ✅ 2026-02-06
+- [x] **3.5** Services: Hairstroke (`/services/permanent-make-up/hairstroke`) ✅ 2026-02-06
+- [x] **3.6** Services: Velvet Lips (`/services/permanent-make-up/velvet-lips`) ✅ 2026-02-06
+- [x] **3.7** Services: Wimpernkranz (`/services/permanent-make-up/wimpernkranz`) ✅ 2026-02-06
+- [x] **3.8** Services: Nails (`/services/nails`) ✅ 2026-02-06
+- [x] **3.9** Services: Lashes & Brows (`/services/lashes-und-brows`) ✅ 2026-02-06
 - [ ] **3.10** Preisliste (`/preisliste`) — price list with PriceMenu component
 - [x] **3.11** Über uns (`/ueber-uns`) — about page with parallax, galleries, lists ✅ 2026-02-06
 - [x] **3.12** Impressum (`/impressum`) — legal page ✅ 2026-02-06
