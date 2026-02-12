@@ -239,18 +239,120 @@ The most complex part — multi-step booking form with state management.
 
 ---
 
-## Phase 6: Final Polish & QA ✅
+## Phase 6: Deployment & CI/CD 🚀
 
-- [x] **6.1** Copy all images from old `public/images/` to new project ✅ 2026-02-06
-- [ ] **6.2** Verify all routes match exactly (no broken links)
-- [ ] **6.3** Test responsive design (mobile, tablet, desktop)
-- [ ] **6.4** Test booking flow end-to-end
-- [ ] **6.5** Test cookie banner functionality
-- [ ] **6.6** Verify all metadata and SEO tags
-- [ ] **6.7** Verify analytics tracking (GA4, GTM, Google Ads)
-- [ ] **6.8** Performance audit (Lighthouse)
-- [ ] **6.9** Accessibility audit
-- [ ] **6.10** Cross-browser testing
+Replace old project files in `dorosh-studio-next-js` repo with the new `mood-beauty-v2` codebase. CI/CD workflows deploy automatically on push.
+
+### Staging deployment (branch: `staging`)
+
+- [x] **6.0.1** Switch to `staging` branch in `dorosh-studio-next-js` ✅ 2026-02-12
+- [x] **6.0.2** Delete all old project files (keep `.git/` and `.github/`) ✅ 2026-02-12
+- [x] **6.0.3** Copy all files from `mood-beauty-v2` (`src/`, `public/`, `package.json`, `package-lock.json`, `next.config.ts`, `tsconfig.json`, `postcss.config.mjs`, `eslint.config.mjs`, `.gitignore`, `MIGRATION.md`) ✅ 2026-02-12
+- [x] **6.0.4** Update `.github/workflows/deploy-staging.yml` ✅ 2026-02-12
+  - `actions/setup-node@v3` → `@v4`
+  - `node-version: '18'` → `'22'`
+  - tar: `next.config.js` → `next.config.ts tsconfig.json postcss.config.mjs`
+  - Workflow name: `Dorosh Studio` → `Mood Beauty`
+- [x] **6.0.5** Fix `ga.ts` type error: `Record<string, unknown>` → `GtagEventParams` ✅ 2026-02-12
+- [x] **6.0.6** Regenerate `package-lock.json` (npm 11 lockfileVersion 3 compatibility) ✅ 2026-02-12
+- [x] **6.0.7** Remove `qualities` from `next.config.ts` (caused 400 on `?q=90`) ✅ 2026-02-12
+- [x] **6.0.8** Fix `.env` heredoc (YAML indentation added leading spaces to env vars) ✅ 2026-02-12
+- [x] **6.0.9** Add PM2 ecosystem config to staging workflow (same as production) ✅ 2026-02-12
+- [x] **6.0.10** Install Node 22 on EC2 via nvm (`nvm install 22 && nvm alias default 22`) ✅ 2026-02-12
+- [x] **6.0.11** Add `nvm use 22` to both deploy workflows (SSH script section) ✅ 2026-02-12
+- [x] **6.0.12** Add old file cleanup to deploy scripts (`rm -f next.config.js jsconfig.json .eslintrc.json .editorconfig`) ✅ 2026-02-12
+- [ ] **6.0.13** Verify staging deployment at `https://staging.moodbeauty.de/`
+
+### Production deployment (branch: `master`)
+
+Repeat the same steps as staging on `master` branch:
+
+- [ ] **6.1.1** Install Node 22 on **production** EC2 via nvm (same as staging: `nvm install 22 && nvm alias default 22`)
+- [ ] **6.1.2** Merge `staging` → `master` (or cherry-pick) after staging QA passes
+- [x] **6.1.3** Update `.github/workflows/deploy.yml` ✅ 2026-02-12
+  - `actions/setup-node@v3` → `@v4`
+  - `node-version: '18'` → `'22'`
+  - tar: `next.config.js` → `next.config.ts tsconfig.json postcss.config.mjs`
+  - Workflow name: `Dorosh Studio` → `Mood Beauty`
+  - SSH script: added `nvm use 22`, old file cleanup, ecosystem config
+- [ ] **6.1.4** Verify production deployment at `https://moodbeauty.de/`
+
+### EC2 server notes
+
+#### Node.js version (CRITICAL)
+
+EC2 servers had **Node 18** installed. Next.js 16 requires **>= 20.9.0**. PM2 uses the system Node to run the app, so even though CI builds with Node 22, the **EC2 runtime** must also have Node 22.
+
+**Symptom:** PM2 shows `errored` status, logs show `You are using Node.js 18.20.8. For Next.js, Node.js version ">=20.9.0" is required.` in a loop (15 restarts then gives up).
+
+**Fix:** Install Node 22 via nvm on each EC2 server:
+```bash
+ssh <ec2-host>
+source ~/.nvm/nvm.sh
+nvm install 22
+nvm alias default 22
+nvm use 22
+node --version  # should show v22.x.x
+```
+
+The deploy workflows now include `nvm use 22` in the SSH script section, so PM2 will always start with Node 22.
+
+**IMPORTANT for production:** Node 22 must be installed on the production EC2 **before** the first deploy, otherwise the same 502 error will occur.
+
+#### .env file creation
+
+**Problem:** Using YAML heredoc (`cat > .env << 'EOF' ... EOF`) inside the workflow SSH script adds leading spaces from YAML indentation to the file content. Result: `            REACT_APP_API_URL=...` instead of `REACT_APP_API_URL=...`. Next.js cannot parse env vars with leading spaces.
+
+**Fix:** Use `echo 'VAR=value' > .env` instead of heredoc.
+
+#### Old files from previous project
+
+**Problem:** `tar xzf` only overwrites files that exist in the archive. Old files like `next.config.js`, `jsconfig.json`, `.eslintrc.json`, `.editorconfig` from the JS project remain on disk and can conflict with the new TS project (e.g., Next.js may load `next.config.js` instead of `next.config.ts`).
+
+**Fix:** Deploy scripts now include `rm -f next.config.js jsconfig.json .eslintrc.json .editorconfig` before extracting the archive. For the first production deploy, a more thorough cleanup is recommended:
+
+```bash
+# One-time cleanup before first production deploy (recommended)
+ssh <ec2-production-host>
+source ~/.nvm/nvm.sh && nvm install 22 && nvm alias default 22
+cd /var/www/dorosh-studio
+pm2 delete dorosh-studio || true
+rm -rf .next node_modules src public package.json package-lock.json next.config.js jsconfig.json .eslintrc.json .editorconfig
+# Then let the workflow deploy fresh
+```
+
+#### PM2 ecosystem config
+
+Both staging and production now use `ecosystem.config.cjs` instead of inline `pm2 start npm --name ...`. This provides:
+- Consistent naming
+- Timestamps in logs (`time: true`, `log_date_format`)
+- Merged logs (`merge_logs: true`)
+- Explicit `cwd` setting
+
+### Staging-specific differences from production
+
+| Aspect | Staging | Production |
+|--------|---------|------------|
+| Branch | `staging` | `master` |
+| API URL | `https://crm-staging.moodbeauty.de/` | `https://crm.moodbeauty.de/` |
+| PM2 name | `dorosh-studio-staging` | `dorosh-studio` |
+| URL | `https://staging.moodbeauty.de/` | `https://moodbeauty.de/` |
+| EC2 secrets | `STUDIO_EC2_STAGING_*` | `STUDIO_EC2_*` |
+
+---
+
+## Phase 7: Final QA ✅
+
+- [x] **7.1** Copy all images from old `public/images/` to new project ✅ 2026-02-06
+- [ ] **7.2** Verify all routes match exactly (no broken links)
+- [ ] **7.3** Test responsive design (mobile, tablet, desktop)
+- [ ] **7.4** Test booking flow end-to-end
+- [ ] **7.5** Test cookie banner functionality
+- [ ] **7.6** Verify all metadata and SEO tags
+- [ ] **7.7** Verify analytics tracking (GA4, GTM, Google Ads)
+- [ ] **7.8** Performance audit (Lighthouse)
+- [ ] **7.9** Accessibility audit
+- [ ] **7.10** Cross-browser testing
 
 ---
 
@@ -286,6 +388,15 @@ The most complex part — multi-step booking form with state management.
 | 2026-02-07 | EmployeeSelector removed from CalendarForm | Dead code path — returns `null` in all reachable scenarios, employee selection handled on separate step |
 | 2026-02-07 | `formatMonthYear` uses `Dayjs` type import | Structural type was incompatible with `dayjs` `ManipulateType` — direct import fixes it |
 | 2026-02-07 | `new URL()` format for `remotePatterns` in next.config | Next.js 15.3+ syntax — cleaner than object notation |
+| 2026-02-12 | Node 22 for CI/CD | Next.js 16 requires Node >= 18.18; Node 22 is current LTS |
+| 2026-02-12 | Remove `qualities` from next.config | Caused 400 errors on staging — Next.js production mode rejects unlisted quality values |
+| 2026-02-12 | `GtagEventParams` type for `sendGaEvent` | `Record<string, unknown>` was incompatible with `window.gtag` type signature |
+| 2026-02-12 | Regenerate `package-lock.json` | npm 11 (local) lockfile was incompatible with npm 10 (CI Node 22) — caused `Exit handler never called` |
+| 2026-02-12 | Node 22 on EC2 via nvm | EC2 had Node 18, Next.js 16 needs >= 20.9.0 — PM2 crashed in loop with 502 |
+| 2026-02-12 | `nvm use 22` in deploy SSH scripts | PM2 inherits shell's Node version — must activate nvm before `npm ci` and `pm2 start` |
+| 2026-02-12 | `echo` instead of heredoc for `.env` | YAML indentation in heredoc adds leading spaces to env var values — breaks parsing |
+| 2026-02-12 | `rm -f old-config-files` in deploy scripts | `tar xzf` doesn't delete files not in archive — old `next.config.js` conflicts with new `next.config.ts` |
+| 2026-02-12 | PM2 ecosystem config for staging | Inline `pm2 start npm --name` is fragile — `ecosystem.config.cjs` is more reliable and consistent with production |
 
 ---
 
@@ -516,3 +627,24 @@ The most complex part — multi-step booking form with state management.
   - Removed EmployeeSelector from CalendarForm (never rendered meaningful content)
   - Removed `openSelects` state, `isAnySelectOpen` logic, `hideEmployeeSelector` prop
 - 🟢 **All phases feature-complete — entering QA phase**
+
+### 2026-02-12 (Staging Deployment)
+- ✅ **Phase 6 STAGING DEPLOYMENT:**
+  - Replaced all files in `dorosh-studio-next-js` repo (staging branch) with `mood-beauty-v2` codebase
+  - Updated both CI/CD workflows (`deploy-staging.yml`, `deploy.yml`):
+    - Node 18 → 22, `setup-node@v3` → `@v4`
+    - tar includes `next.config.ts`, `tsconfig.json`, `postcss.config.mjs` instead of `next.config.js`
+    - Workflow names updated to "Mood Beauty"
+  - Fixed `ga.ts` build error: `Record<string, unknown>` → `GtagEventParams` type
+  - Regenerated `package-lock.json` for Node 22 / npm 10 compatibility
+  - Removed `qualities: [75, 80, 90]` from `next.config.ts` — caused 400 errors for `?q=90` on staging
+- ✅ **Staging deployment fixes (502 Bad Gateway):**
+  - **Root cause 1:** EC2 had Node 18.20.8, Next.js 16 requires >= 20.9.0 → PM2 crash loop (15 restarts → errored)
+  - **Fix:** `nvm install 22 && nvm alias default 22` on EC2, added `nvm use 22` to both deploy workflows
+  - **Root cause 2:** `.env` heredoc in YAML added leading spaces to `REACT_APP_API_URL` → env var not parsed
+  - **Fix:** Replaced heredoc with `echo 'REACT_APP_API_URL=...' > .env`
+  - **Root cause 3:** Old `next.config.js` still on server conflicting with new `next.config.ts`
+  - **Fix:** Added `rm -f next.config.js jsconfig.json .eslintrc.json .editorconfig` before tar extraction
+  - Added PM2 `ecosystem.config.cjs` to staging workflow (was only in production before)
+  - Staging now running: Next.js 16.1.6 on Node 22.22.0, port 3001 ✅
+- 🚧 Next: Verify staging at `https://staging.moodbeauty.de/`, then deploy to production
