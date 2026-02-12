@@ -12,14 +12,9 @@ const nextConfig: NextConfig = {
   // Image optimization settings
   images: {
     remotePatterns: [
-      {
-        protocol: `http`,
-        hostname: `localhost`,
-      },
-      {
-        protocol: `http`,
-        hostname: `192.168.93.195`,
-      },
+      new URL(`http://localhost:3500/**`),
+      new URL(`https://moodbeauty.de/**`),
+      new URL(`http://192.168.93.195/**`),
     ],
     formats: [`image/avif`, `image/webp`],
     qualities: [75, 80, 90],

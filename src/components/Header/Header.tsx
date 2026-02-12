@@ -50,7 +50,7 @@ export default function Header() {
         borderBottom: isBooking ? `none` : `1px solid rgba(0, 0, 0, 0.06)`,
       }}
     >
-      <div className="px-4 h-[70px]">
+      <div className="px-0 h-[70px]">
         <div className="container flex items-center h-full">
           <LogoLink />
           <div className="ml-auto">

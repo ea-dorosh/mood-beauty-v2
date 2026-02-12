@@ -1,3 +1,5 @@
+import type { Dayjs } from 'dayjs';
+
 /**
  * Formats time to a more readable format without seconds.
  * @param parsedTime - The time in 'HH:MM:SS' or "2025-04-02 12:30:00" format.
@@ -101,4 +103,19 @@ export const formatIsoDate = (dateString: string): string => {
   const [day, month, year] = formattedDate.split(` `);
 
   return `${day}. ${month} ${year}`;
+};
+
+/**
+ * Format week start date to "Month YYYY" or "Mon-Mon YYYY" if week spans two months
+ */
+export const formatMonthYear = (start: Dayjs): string => {
+  const end = start.add(6, `days`);
+
+  // Check if the months are different
+  if (start.month() === end.month()) {
+    return start.format(`MMMM YYYY`); // Same month
+  } else {
+    // Return the abbreviated months and the year
+    return `${start.format(`MMM`)}-${end.format(`MMM`)} ${start.year()}`;
+  }
 };
