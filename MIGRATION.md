@@ -3,7 +3,7 @@
 > **Source project:** `dorosh-studio-next-js` (Next.js 13.5.6 + MUI 5)
 > **Target project:** `mood-beauty-v2` (Next.js 16.1.6 + Tailwind CSS 4 + Radix UI)
 > **Start date:** 2026-02-06
-> **Status:** 🚧 In Progress
+> **Status:** 🟢 Feature Complete — QA phase
 
 ---
 
@@ -138,8 +138,8 @@ Migrate all pages preserving texts, metadata, and structure.
 - [x] **3.11** Über uns (`/ueber-uns`) — about page with parallax, galleries, lists ✅ 2026-02-06
 - [x] **3.12** Impressum (`/impressum`) — legal page ✅ 2026-02-06
 - [x] **3.13** Datenschutz (`/datenschutz`) — privacy policy page ✅ 2026-02-06
-- [ ] **3.14** Booking (`/booking`) — booking form page (UI only, logic in Phase 4)
-- [ ] **3.15** Termin stornieren (`/termin-stornieren/[token]`) — appointment cancellation
+- [x] **3.14** Booking (`/booking`) — booking form page with full logic ✅ 2026-02-07
+- [x] **3.15** Termin stornieren (`/termin-stornieren/[token]`) — appointment cancellation ✅ 2026-02-07
 
 ### Notes
 - All texts are in German (de) — preserve exactly
@@ -164,27 +164,37 @@ The most complex part — multi-step booking form with state management.
 
 ### Checklist
 
-- [ ] **4.1** `BookingFormContainer` — main orchestrator (stepper, state, navigation)
-- [ ] **4.2** `CategoryForm` — service category selection
-- [ ] **4.3** `SubCategoryForm` — sub-category selection
-- [ ] **4.4** `ServiceSelectionForm` — specific service selection
-- [ ] **4.5** `ServicesList` — list of available services
-- [ ] **4.6** `AddServiceQuestion` — "add another service?" step
-- [ ] **4.7** `EmployeeSelectionStep` — employee selection (any/specific/multiple)
-- [ ] **4.8** `CalendarForm` — date picker with available slots
-- [ ] **4.9** `CalendarOverview` — week view calendar
-- [ ] **4.10** `CustomerForm` — customer data input (name, email, phone, message)
-- [ ] **4.11** `Confirmation` — booking confirmation view
-- [ ] **4.12** `SelectedServicesSummary` — summary of selected services
-- [ ] **4.13** `AppointmentCancellation` — cancellation flow with token
+- [x] **4.1** `BookingFormContainer` — main orchestrator (stepper, state, navigation) ✅ 2026-02-07
+- [x] **4.2** `CategoryForm` — service category selection ✅ 2026-02-07
+- [x] **4.3** `SubCategoryForm` — sub-category selection ✅ 2026-02-07
+- [x] **4.4** `ServiceSelectionForm` — specific service selection ✅ 2026-02-07
+- [x] **4.5** `ServicesList` — list of available services ✅ 2026-02-07
+- [x] **4.6** `AddServiceQuestion` — "add another service?" step ✅ 2026-02-07
+- [x] **4.7** `EmployeeSelectionStep` — employee selection (any/specific/multiple) ✅ 2026-02-07
+- [x] **4.8** `CalendarForm` — date picker with available slots ✅ 2026-02-07
+- [x] **4.9** `CalendarOverview` — selected date/time overview ✅ 2026-02-07
+- [x] **4.10** `CustomerForm` — customer data input (name, email, phone, message) ✅ 2026-02-07
+- [x] **4.11** `Confirmation` — booking confirmation view ✅ 2026-02-07
+- [x] **4.12** `SelectedServicesSummary` — summary of selected services ✅ 2026-02-07
+- [x] **4.13** `AppointmentCancellation` — cancellation flow with modal dialog ✅ 2026-02-07
 - [x] **4.14** `PriceMenu` — price list component (migrated to Tailwind CSS) ✅ 2026-02-06
 
 ### Notes
-- BookingFormContainer has ~15 state variables and complex step logic
-- Calendar uses `dayjs` library — keep it
-- Form validation is manual (no form library) — preserve as-is
-- Employee selection has 3 modes: any, specific, multiple
-- Google Analytics tracking at each funnel step — preserve all tracking calls
+- BookingFormContainer has ~15 state variables and complex step logic — all preserved 1:1
+- Calendar uses `dayjs` library — kept as-is
+- Form validation is manual (no form library) — preserved as-is
+- Employee selection has 3 modes: any, specific, multiple — all working
+- Google Analytics tracking at each funnel step — all tracking calls preserved
+- **Design changes vs old project:**
+  - ServiceSelectionForm: MUI Accordions → flat show/hide design (no card wrapper, no shadows)
+  - SubCategoryForm: pill-chips tried, reverted to list with white bg + border (no gray box)
+  - CategoryForm: `auto-fill` grid with `minmax(260px, 1fr)` — responsive without shrinking
+  - Stepper: frosted glass sticky header, white numbers in black circles
+  - All "Zurück" buttons: green outlined pill style (matches AddServiceQuestion)
+  - AppointmentCancellation: cancellation form moved to modal dialog with backdrop blur
+  - Booking form headings use Montserrat instead of Cormorant (`.booking-form h1-h6`)
+  - Content centered with `max-w-[768px]` on desktop
+- **Dead code removed:** EmployeeSelector was removed from CalendarForm (unused when employee selection happens on separate step, and returns `null` otherwise)
 
 ---
 
@@ -200,22 +210,22 @@ The most complex part — multi-step booking form with state management.
 - [x] **5.6** API: `/api/link-track` — link click tracking proxy ✅ 2026-02-06
 - [x] **5.7** Route: `/ig` — Instagram bio redirect with tracking ✅ 2026-02-06
 - [x] **5.8** Service: `services.service` — fetch public services ✅ 2026-02-06
-- [ ] **5.9** Service: `calendar.service` — fetch time slots & nearest slots
-- [ ] **5.10** Service: `appointments.service` — create/get/cancel appointments
-- [ ] **5.11** Lib: `ga.js` — Google Analytics 4 event tracking (full booking funnel)
-- [x] **5.12** Lib: `gtm.js` — Google Ads conversion tracking ✅ 2026-02-06
+- [x] **5.9** Service: `calendar.service` — fetch time slots & nearest slots ✅ 2026-02-07
+- [x] **5.10** Service: `appointments.service` — create/get/cancel appointments ✅ 2026-02-07
+- [x] **5.11** Lib: `ga.ts` — Google Analytics 4 event tracking (full booking funnel) ✅ 2026-02-07
+- [x] **5.12** Lib: `gtm.ts` — Google Ads conversion tracking ✅ 2026-02-06
 - [x] **5.13** Component: `AnalyticsScripts` — GA/GTM script injection ✅ 2026-02-06
 - [x] **5.14** Component: `PhoneTrackingHandler` — phone click tracking ✅ 2026-02-06
 - [x] **5.15** Component: `LocalBusinessSchema` — JSON-LD structured data ✅ 2026-02-06
-- [ ] **5.16** Component: `PerformanceMonitor` — web vitals monitoring
+- [ ] **5.16** Component: `PerformanceMonitor` — web vitals monitoring (optional, low priority)
 - [x] **5.17** `robots.ts` — robots.txt generation ✅ 2026-02-06
 - [x] **5.18** `sitemap.ts` — sitemap.xml generation ✅ 2026-02-06
 - [x] **5.19** `middleware.ts` — empty middleware (manifest fix) ✅ 2026-02-06
 - [x] **5.20** Utils: `formatters` — time, price, date formatters ✅ 2026-02-06
-- [ ] **5.21** Utils: `slugify` — URL slug generation
-- [ ] **5.22** Utils: `performance` — performance measurement
-- [ ] **5.23** Constants: `enums` — booking enums
-- [ ] **5.24** Constants: `errors` — error codes
+- [x] **5.21** Utils: `slugify` — URL slug generation ✅ 2026-02-07
+- [ ] **5.22** Utils: `performance` — performance measurement (optional, low priority)
+- [x] **5.23** Constants: `enums` — booking enums ✅ 2026-02-07
+- [x] **5.24** Constants: `errors` — error codes ✅ 2026-02-07
 - [x] **5.25** Constants: `staticData` — categories and services static data ✅ 2026-02-06
 - [x] **5.26** Component: `ScrollToTop` — scroll-to-top on route change ✅ 2026-02-06
 - [x] **5.27** Component: `CategoryInfo` — service category info block ✅ 2026-02-06
@@ -268,6 +278,14 @@ The most complex part — multi-step booking form with state management.
 | 2026-02-06 | `AboutSection` inlined in über-uns page | Old project had a separate component, new project uses direct JSX — same pattern as CategoryCardInfo |
 | 2026-02-06 | Base `btn` class required on all buttons | Custom button system uses `.btn` + size (`.btn-sm`/`.btn-md`/`.btn-lg`) + variant (`.btn-primary`/`.btn-secondary`) — all three required |
 | 2026-02-06 | API routes proxy to local backend | All tracking routes proxy to `http://127.0.0.1:3500/` with header forwarding (x-forwarded-for, user-agent, etc.) |
+| 2026-02-07 | Flat design replaces MUI Accordions for service selection | User preference — show/hide without card wrappers, shadows, or accordion UI |
+| 2026-02-07 | `unoptimized` on API images | Next.js 16 blocks private IP in image optimizer; API images already avif — no optimization needed |
+| 2026-02-07 | `auto-fill` + `minmax(260px, 1fr)` for category grid | Cards never shrink below 260px, auto-wrap to new rows — responsive without breakpoint-based columns |
+| 2026-02-07 | Montserrat for booking form headings only | Scoped via `.booking-form h1-h6` CSS rule — rest of project keeps Cormorant |
+| 2026-02-07 | Modal dialog for appointment cancellation | Better UX than inline form — clear separation, focused action, backdrop blur |
+| 2026-02-07 | EmployeeSelector removed from CalendarForm | Dead code path — returns `null` in all reachable scenarios, employee selection handled on separate step |
+| 2026-02-07 | `formatMonthYear` uses `Dayjs` type import | Structural type was incompatible with `dayjs` `ManipulateType` — direct import fixes it |
+| 2026-02-07 | `new URL()` format for `remotePatterns` in next.config | Next.js 15.3+ syntax — cleaner than object notation |
 
 ---
 
@@ -278,14 +296,14 @@ The most complex part — multi-step booking form with state management.
 | `src/theme.js` | `src/app/globals.css` (CSS vars) | ✅ Done |
 | `src/app/layout.js` | `src/app/layout.tsx` | ✅ Done |
 | `src/app/page.js` | `src/app/page.tsx` | ✅ Done |
-| `src/app/booking/page.js` | `src/app/booking/page.tsx` | ⬜ Pending |
+| `src/app/booking/page.js` | `src/app/booking/page.tsx` | ✅ Done |
 | `src/app/services/page.js` | `src/app/services/page.tsx` | ✅ Done |
 | `src/app/services/*/page.js` | `src/app/services/*/page.tsx` | ✅ Done |
 | `src/app/preisliste/page.js` | `src/app/preisliste/page.tsx` | ✅ Done |
 | `src/app/ueber-uns/page.js` | `src/app/ueber-uns/page.tsx` | ✅ Done |
 | `src/app/impressum/page.js` | `src/app/impressum/page.tsx` | ✅ Done |
 | `src/app/datenschutz/page.js` | `src/app/datenschutz/page.tsx` | ✅ Done |
-| `src/app/termin-stornieren/[token]/page.js` | `src/app/termin-stornieren/[token]/page.tsx` | ⬜ Pending |
+| `src/app/termin-stornieren/[token]/page.js` | `src/app/termin-stornieren/[token]/page.tsx` | ✅ Done |
 | `src/app/ig/route.js` | `src/app/ig/route.ts` | ✅ Done |
 | `src/app/api/*/route.js` | `src/app/api/*/route.ts` | ✅ Done |
 | `src/app/robots.js` | `src/app/robots.ts` | ✅ Done |
@@ -305,30 +323,31 @@ The most complex part — multi-step booking form with state management.
 | `src/components/UberMoodSection/UberMoodSection.js` | `src/components/UberMoodSection/UberMoodSection.tsx` | ✅ Done |
 | `src/components/PricePreview/PricePreview.js` | `src/components/PricePreview/PricePreview.tsx` | ✅ Done |
 | `src/components/PriceMenu/PriceMenu.js` | `src/components/PriceMenu/PriceMenu.tsx` | ✅ Done |
-| `src/components/BookingForm/*.js` | `src/components/BookingForm/*.tsx` | ⬜ Pending |
-| `src/components/AppointmentCancellation/AppointmentCancellation.js` | `src/components/AppointmentCancellation/AppointmentCancellation.tsx` | ⬜ Pending |
+| `src/components/BookingForm/*.js` | `src/components/BookingForm/*.tsx` | ✅ Done |
+| `src/components/AppointmentCancellation/AppointmentCancellation.js` | `src/components/AppointmentCancellation/AppointmentCancellation.tsx` | ✅ Done |
 | `src/components/Analytics/AnalyticsScripts.js` | `src/components/Analytics/AnalyticsScripts.tsx` | ✅ Done |
 | `src/components/PhoneTrackingHandler/PhoneTrackingHandler.js` | `src/components/PhoneTrackingHandler/PhoneTrackingHandler.tsx` | ✅ Done |
 | `src/components/StructuredData/LocalBusinessSchema.js` | `src/components/StructuredData/LocalBusinessSchema.tsx` | ✅ Done |
-| `src/components/PerformanceMonitor/PerformanceMonitor.js` | `src/components/PerformanceMonitor/PerformanceMonitor.tsx` | ⬜ Pending |
+| `src/components/PerformanceMonitor/PerformanceMonitor.js` | `src/components/PerformanceMonitor/PerformanceMonitor.tsx` | ⬜ Optional |
 | `src/components/CategoryCardInfo/CategoryCardInfo.js` | _(inlined in services/page.tsx)_ | ✅ Done (inlined) |
 | `src/components/CategoryInfo/CategoryInfo.js` | `src/components/CategoryInfo/CategoryInfo.tsx` | ✅ Done |
 | `src/components/SubCategoryCardInfo/SubCategoryCardInfo.js` | `src/components/SubCategoryCardInfo/SubCategoryCardInfo.tsx` | ✅ Done |
 | `src/components/AboutSection/AboutSection.js` | _(inlined in ueber-uns/page.tsx)_ | ✅ Done (inlined) |
 | `src/components/MosaicGallery/MosaicGallery.js` | `src/components/MosaicGallery/MosaicGallery.tsx` | ✅ Done |
 | `src/services/services.service.js` | `src/services/services.service.ts` | ✅ Done |
-| `src/services/calendar.service.js` | `src/services/calendar.service.ts` | ⬜ Pending |
-| `src/services/appointments.service.js` | `src/services/appointments.service.ts` | ⬜ Pending |
-| `src/lib/ga.js` | `src/lib/ga.ts` | ⬜ Pending |
+| `src/services/calendar.service.js` | `src/services/calendar.service.ts` | ✅ Done |
+| `src/services/appointments.service.js` | `src/services/appointments.service.ts` | ✅ Done |
+| `src/lib/ga.js` | `src/lib/ga.ts` | ✅ Done |
 | `src/lib/gtm.js` | `src/lib/gtm.ts` | ✅ Done |
-| `src/constants/enums.js` | `src/constants/enums.ts` | ⬜ Pending |
-| `src/constants/errors.js` | `src/constants/errors.ts` | ⬜ Pending |
+| `src/constants/enums.js` | `src/constants/enums.ts` | ✅ Done |
+| `src/constants/errors.js` | `src/constants/errors.ts` | ✅ Done |
 | `src/constants/staticData.js` | `src/constants/staticData.ts` | ✅ Done |
 | `src/utils/formatters.js` | `src/utils/formatters.ts` | ✅ Done |
-| `src/utils/slugify.js` | `src/utils/slugify.ts` | ⬜ Pending |
-| `src/utils/performance.js` | `src/utils/performance.ts` | ⬜ Pending |
+| `src/utils/slugify.js` | `src/utils/slugify.ts` | ✅ Done |
+| `src/utils/performance.js` | `src/utils/performance.ts` | ⬜ Optional |
 | `src/middleware.js` | `src/middleware.ts` | ✅ Done |
 | _(new)_ | `src/components/ScrollToTop/ScrollToTop.tsx` | ✅ Done |
+| _(new)_ | `src/types/booking.ts` | ✅ Done |
 
 ---
 
@@ -439,3 +458,61 @@ The most complex part — multi-step booking form with state management.
   - Build passes successfully ✅
 - ✅ Updated `MIGRATION.md` with all progress
 - 🚧 Next: Phase 3.14 (Booking page UI), Phase 3.15 (Termin stornieren), Phase 4 (Booking logic)
+
+### 2026-02-07 / 2026-02-12 (Booking System Migration)
+- ✅ **Phase 4 COMPLETE — ALL BOOKING COMPONENTS MIGRATED:**
+  - `BookingFormContainer.tsx` — main orchestrator with stepper, 15+ state variables, step navigation, GA4/GTM tracking
+  - `CategoryForm.tsx` — category grid with `auto-fill` responsive layout, `unoptimized` images (bypass Next.js private IP block)
+  - `SubCategoryForm.tsx` — list with white bg, border separator, checkbox icons
+  - `ServiceSelectionForm.tsx` — flat show/hide design replacing MUI Accordions, imperative ref API preserved
+  - `ServicesList.tsx` — service cards with images, duration, price range, select/deselect
+  - `AddServiceQuestion.tsx` — green outlined pill button
+  - `EmployeeSelectionStep.tsx` — employee selection with nearest slot fetching, toggle UI
+  - `CalendarForm.tsx` — calendar orchestrator with week navigation, time slot loading, skeleton
+  - `CalendarGrid.tsx` — week grid with day dots, month/year display, prev/next arrows
+  - `CalendarDay.tsx` — individual day button with highlight dot and selected state
+  - `TimeSlotSection.tsx` — available time slots for selected day
+  - `TimeSlotButton.tsx` — individual time slot with disabled/selected styling
+  - `TimeSlotSkeleton.tsx` — loading skeleton for time slots
+  - `EmployeeSelector.tsx` — multi-select employee dropdown (file exists but removed from CalendarForm as dead code)
+  - `CalendarOverview.tsx` — selected date/time/services summary
+  - `CustomerForm.tsx` — customer details with validation, country code selector
+  - `CountryCodeSelector.tsx` — native select with emoji flags
+  - `Confirmation.tsx` — booking confirmation screen
+  - `SelectedServicesSummary.tsx` — service summary with employee info and prices
+- ✅ **Phase 4.13 `AppointmentCancellation` COMPLETE:**
+  - Full cancellation flow: fetch by token → display details → cancel with modal dialog
+  - Modal with backdrop blur, warning, optional message, confirm/cancel buttons
+  - Handles: past appointments, already cancelled, group appointments, loading/error states
+  - Scroll to top after successful cancellation
+- ✅ **Phase 5.9–5.11, 5.21, 5.23–5.24 COMPLETE:**
+  - `calendar.service.ts` — TypeScript: `fetchTimeSlots`, `fetchNearestSlots`
+  - `appointments.service.ts` — TypeScript: `createAppointment`, `getAppointmentByToken`, `cancelAppointmentByToken`
+  - `ga.ts` — TypeScript: full GA4 booking funnel tracking (12+ events)
+  - `slugify.ts` — TypeScript URL slug utility
+  - `enums.ts` — TypeScript booking enums with `as const`
+  - `errors.ts` — TypeScript error constants
+  - `types/booking.ts` — central TypeScript types for all booking data structures
+- ✅ **Phase 3.14–3.15 BOOKING PAGES COMPLETE:**
+  - `booking/page.tsx` — server-side QR tracking + categories fetch, renders BookingFormContainer
+  - `termin-stornieren/[token]/page.tsx` — dynamic route rendering AppointmentCancellation
+- ✅ **Design improvements in booking form:**
+  - Stepper: frosted glass sticky header, white-on-black circles, equal spacing
+  - Categories: responsive `auto-fill` grid, `aspect-video` cards, large overlay titles
+  - SubCategories: clean list with white bg, thin borders, checkbox icons
+  - All "Zurück" buttons: green outlined pill style (matching "Service hinzufügen")
+  - "Weiter" buttons: centered on all steps
+  - Calendar: larger arrows (28px), bigger dots (10px), bold month/year (text-lg)
+  - Booking headings: Montserrat font (via `.booking-form h1-h6` CSS scope)
+  - Content centered with `max-w-[768px]` on desktop
+  - `löschen` button: inline style to avoid CSS cascade override
+- ✅ **Bug fixes:**
+  - `formatMonthYear` — replaced structural type with `Dayjs` import (build error fix)
+  - `setSelectedDay` — fixed functional update type mismatch
+  - `categories` — type assertion for `readonly` → mutable array
+  - `next/image` private IP — added `unoptimized` for API images (localhost avif)
+  - `next.config.ts` — added `remotePatterns` with `new URL()` format + port 3500
+- ✅ **Dead code cleanup:**
+  - Removed EmployeeSelector from CalendarForm (never rendered meaningful content)
+  - Removed `openSelects` state, `isAnySelectOpen` logic, `hideEmployeeSelector` prop
+- 🟢 **All phases feature-complete — entering QA phase**
