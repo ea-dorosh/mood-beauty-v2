@@ -484,7 +484,7 @@ p, span, a, li, label, input, textarea, select, button {
 
 /* --- Utility Classes --- */
 .container {
-  max-width: 1200px;
+  max-width: 768px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;
@@ -626,7 +626,7 @@ ul, ol {
 
 /* --- Über uns Page --- */
 .ueber-uns-page {
-  max-width: 1200px;
+  max-width: 768px;
   margin: 0 auto;
 }
 
