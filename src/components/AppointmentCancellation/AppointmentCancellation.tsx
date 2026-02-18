@@ -107,7 +107,12 @@ export default function AppointmentCancellation({ token }: AppointmentCancellati
       setCancelledCount(response.cancelledCount || 1);
       setShowCancelForm(false);
       setCancelled(true);
-      window.scrollTo({ top: 0, behavior: `smooth` });
+
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: `smooth` });
+        }, 150);
+      });
     } catch (cancelError) {
       setError(cancelError instanceof Error ? cancelError.message : `Unknown error`);
     } finally {
