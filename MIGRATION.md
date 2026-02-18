@@ -261,7 +261,9 @@ Replace old project files in `dorosh-studio-next-js` repo with the new `mood-bea
 - [x] **6.0.10** Install Node 22 on EC2 via nvm (`nvm install 22 && nvm alias default 22`) ✅ 2026-02-12
 - [x] **6.0.11** Add `nvm use 22` to both deploy workflows (SSH script section) ✅ 2026-02-12
 - [x] **6.0.12** Add old file cleanup to deploy scripts (`rm -f next.config.js jsconfig.json .eslintrc.json .editorconfig`) ✅ 2026-02-12
-- [ ] **6.0.13** Verify staging deployment at `https://staging.moodbeauty.de/`
+- [x] **6.0.13** Fix `npm ci` timeout on EC2 — replaced with `npm install --omit=dev` ✅ 2026-02-12
+- [x] **6.0.14** Reverted staging PM2 to simple `pm2 start npm` (ecosystem config caused issues) ✅ 2026-02-12
+- [ ] **6.0.15** Verify staging deployment at `https://staging.moodbeauty.de/`
 
 ### Production deployment (branch: `master`)
 
@@ -321,13 +323,15 @@ rm -rf .next node_modules src public package.json package-lock.json next.config.
 # Then let the workflow deploy fresh
 ```
 
-#### PM2 ecosystem config
+#### npm ci vs npm install
 
-Both staging and production now use `ecosystem.config.cjs` instead of inline `pm2 start npm --name ...`. This provides:
-- Consistent naming
-- Timestamps in logs (`time: true`, `log_date_format`)
-- Merged logs (`merge_logs: true`)
-- Explicit `cwd` setting
+**Problem:** `npm ci --omit=dev` hangs indefinitely on EC2 (10-minute timeout). The `package-lock.json` was generated with npm 11 (lockfileVersion 3) locally, but EC2's npm 10 (via Node 22) struggles with it. `npm ci` deletes entire `node_modules` and reinstalls from scratch — on a t3.small instance this can OOM or timeout.
+
+**Fix:** Use `npm install --omit=dev` instead. It's more forgiving with lockfile version mismatches and doesn't wipe `node_modules` first, so subsequent deploys are faster.
+
+#### PM2 start command
+
+Staging uses the simple inline format: `pm2 start npm --name dorosh-studio-staging -- start -- -p 3001`. Production uses `ecosystem.config.cjs` for additional features (timestamps, log formatting). Both approaches work — the simple format is more reliable for staging where we iterate quickly.
 
 ### Staging-specific differences from production
 
@@ -397,6 +401,8 @@ Both staging and production now use `ecosystem.config.cjs` instead of inline `pm
 | 2026-02-12 | `echo` instead of heredoc for `.env` | YAML indentation in heredoc adds leading spaces to env var values — breaks parsing |
 | 2026-02-12 | `rm -f old-config-files` in deploy scripts | `tar xzf` doesn't delete files not in archive — old `next.config.js` conflicts with new `next.config.ts` |
 | 2026-02-12 | PM2 ecosystem config for staging | Inline `pm2 start npm --name` is fragile — `ecosystem.config.cjs` is more reliable and consistent with production |
+| 2026-02-12 | `npm install` instead of `npm ci` on EC2 | `npm ci` hangs on t3.small with lockfileVersion 3 mismatch — `npm install` is more forgiving and faster on subsequent deploys |
+| 2026-02-12 | Reverted staging to simple `pm2 start npm` | ecosystem.config.cjs was part of changes that caused timeout — reverted to keep staging simple and working |
 
 ---
 
@@ -647,4 +653,29 @@ Both staging and production now use `ecosystem.config.cjs` instead of inline `pm
   - **Fix:** Added `rm -f next.config.js jsconfig.json .eslintrc.json .editorconfig` before tar extraction
   - Added PM2 `ecosystem.config.cjs` to staging workflow (was only in production before)
   - Staging now running: Next.js 16.1.6 on Node 22.22.0, port 3001 ✅
-- 🚧 Next: Verify staging at `https://staging.moodbeauty.de/`, then deploy to production
+- ✅ **Deploy script timeout fix:**
+  - `npm ci --omit=dev` hung for 10 minutes on EC2 → replaced with `npm install --omit=dev`
+  - Reverted staging PM2 to simple `pm2 start npm --name ... -- start -- -p 3001` (removed ecosystem config)
+  - Simplified deploy script: nvm + tar + npm install + env + pm2 — minimal and reliable
+- ✅ Staging verified and working at `https://staging.moodbeauty.de/`
+
+### 2026-02-07 (Post-Staging QA Fixes)
+- ✅ **Scroll-to-error offset for sticky stepper:**
+  - CustomerForm: added `useEffect` that scrolls to first invalid field with 100px offset (stepper height)
+  - ServiceSelectionForm: added `scroll-margin-top: 100px` on root element for all `scrollIntoView` calls
+  - Previously, validation errors under input fields were hidden behind the sticky stepper after scroll
+- ✅ **Cancellation time limit documented:**
+  - Frontend: `isAppointmentPast()` compares `appointment.timeStart` with `new Date()`
+  - Backend: compares `timeStart` (UTC) with current time via `dayjs().utc()`
+  - Current behavior: cancellation allowed up to the exact `timeStart` moment (no advance deadline)
+  - No "X hours before" restriction exists — noted as future enhancement in backend docs
+- ✅ **Bug fix: `isAppointmentPast()` used `appointment.date` instead of `appointment.timeStart`:**
+  - `appointment.date` = `"2026-02-18T00:00:00.000Z"` (midnight UTC, date only)
+  - `appointment.timeStart` = `"2026-02-18T18:15:00.000Z"` (actual appointment start)
+  - After midnight UTC on the appointment day, frontend incorrectly showed "Termin abgelaufen"
+  - Fixed: now uses `appointment.timeStart` — consistent with backend logic
+- ✅ **Marketing consent checkbox default changed to checked:**
+  - `consentMarketing` initial state changed from `false` to `true` in CustomerForm
+  - `consentPrivacy` remains `false` (must be explicitly accepted by customer)
+  - Customer can opt out of marketing by unchecking the checkbox themselves
+- 🚧 Next: Deploy to production, QA all routes and booking flow end-to-end

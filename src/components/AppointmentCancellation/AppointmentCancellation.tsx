@@ -135,7 +135,7 @@ export default function AppointmentCancellation({ token }: AppointmentCancellati
 
   const isAppointmentPast = (): boolean => {
     if (!appointment) return true;
-    const appointmentDateTime = new Date(appointment.date);
+    const appointmentDateTime = new Date(appointment.timeStart);
     const now = new Date();
     return appointmentDateTime < now;
   };

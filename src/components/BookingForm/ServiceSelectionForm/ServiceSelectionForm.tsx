@@ -170,7 +170,7 @@ const ServiceSelectionForm = forwardRef<ServiceSelectionFormRef, ServiceSelectio
     const isServiceOpen = expandedPanel === `service`;
 
     return (
-      <div ref={topFormPosition}>
+      <div ref={topFormPosition} style={{ scrollMarginTop: `100px` }}>
         {/* Delete button for multi-service */}
         {hasDeleteButton && (
           <div className="flex justify-between items-center gap-2 w-full pb-2 mb-2 border-b border-[rgba(0,0,0,0.1)]">

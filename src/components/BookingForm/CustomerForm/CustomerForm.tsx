@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import CountryCodeSelector from "./CountryCodeSelector";
 import type { CustomerFormData, FormErrors } from "@/types/booking";
+
+const STEPPER_HEIGHT_OFFSET = 100;
 
 interface CustomerFormProps {
   createAppointment: (formData: CustomerFormData) => void;
@@ -13,6 +15,20 @@ export default function CustomerForm({
   createAppointment,
   formErrors,
 }: CustomerFormProps) {
+  const formRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!formErrors || !formRef.current) return;
+
+    const firstErrorKey = Object.keys(formErrors)[0];
+    if (!firstErrorKey) return;
+
+    const errorField = formRef.current.querySelector(`[name="${firstErrorKey}"]`) as HTMLElement | null;
+    if (!errorField) return;
+
+    const elementTop = errorField.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: elementTop - STEPPER_HEIGHT_OFFSET, behavior: `smooth` });
+  }, [formErrors]);
   const [formData, setFormData] = useState<CustomerFormData>({
     firstName: ``,
     lastName: ``,
@@ -20,7 +36,7 @@ export default function CustomerForm({
     email: ``,
     orderMessage: ``,
     consentPrivacy: false,
-    consentMarketing: false,
+    consentMarketing: true,
   });
 
   const [countryCode, setCountryCode] = useState(`+49`);
@@ -52,7 +68,7 @@ export default function CustomerForm({
   };
 
   return (
-    <div className="mt-4 mb-4">
+    <div ref={formRef} className="mt-4 mb-4">
       <h5 className="text-center text-xl font-heading font-semibold tracking-wide">
         Kundendetails
       </h5>
@@ -144,6 +160,7 @@ export default function CustomerForm({
           <label className="flex items-start gap-2 cursor-pointer">
             <input
               type="checkbox"
+              name="consentPrivacy"
               checked={formData.consentPrivacy}
               onChange={(event) => {
                 if (formErrors?.consentPrivacy) {
